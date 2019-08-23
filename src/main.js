@@ -41,8 +41,21 @@ const store = new Vuex.Store({
     state: {
         cart: {
             items:[]
+        }
+    },
+    getters: {
+        cartTotal: (state) => {
+            let total = 0;
+
+            state.cart.items.forEach(function(item) {
+                total += item.product.price * item.quantity;
+            });
+
+            return total;
         },
-        cartTotal: 0
+        taxAmount: (state, getters) => (percentage) => {
+            return ((getters.cartTotal * percentage ) / 100 );
+        }
     }
 })
 

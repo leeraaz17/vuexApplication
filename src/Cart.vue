@@ -59,6 +59,17 @@
 
 <script>
     export default {
+        computed: {
+            cart() {
+                return this.$store.state.cart;
+            },
+            cartTotal() {
+                return this.$store.getters.cartTotal;
+            },
+            taxAmount() {
+                return this.$store.getters.taxAmount(100);
+            }
+        },
         // TODO: Access cart items, cart total, and tax amount
 
         // TODO: Implement increaseQuantity method
