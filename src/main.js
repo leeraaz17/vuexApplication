@@ -37,10 +37,20 @@ const router = new VueRouter({
     }
 });
 
+const store = new Vuex.Store({
+    state: {
+        cart: {
+            items:[]
+        },
+        cartTotal: 0
+    }
+})
+
 Vue.http.options.root = 'http://localhost:3000';
 
 new Vue({
     el: '#app',
     render: h => h(App),
-    router: router
+    router: router,
+    store: store
 });

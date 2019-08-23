@@ -1,6 +1,7 @@
 <template>
     <div>
         <button class="btn btn-primary" @click="goBack">&laquo; Back</button>
+        <button class="btn btn-default" @click="addProductToCart">Add to Cart</button>
 
         <div v-if="product != null">
             <h1>{{ product.name }}</h1>
@@ -69,6 +70,19 @@
                 }
             };
         },
+        computed: {
+            cart() {
+                return this.$store.state.cart;
+            },
+            cartTotal: {
+                get: function() {
+                    return this.$store.state.cartTotal;
+                },
+                set: function(value) {
+                    this.$store.state.cartTotal = value;
+                }
+            }
+        },
         created() {
             this.getProduct(this.productId)
                 .then(product => this.product = product);
@@ -98,6 +112,31 @@
             },
             deleteReview(review) {
                 // TODO: Implement
+            },
+            addProductToCart() {
+                let cartItem = this.getCartItem(this.product);
+
+                if(cartItem != null ){
+                    cartItem.quantity++;
+                }
+                else {
+                    this.cart.items.push({
+                        product: this.product,
+                        quantity: 1
+                    });
+                }
+
+                this.product.inStock--;
+                this.cartTotal += this.product.price;
+            },
+            getCartItem(product){
+                for( let i = 0; i < this.cart.items.length; i++) {
+                    if (this.cart.items[i].product.id === product.id ){
+                        return this.cart.items[i];
+                    }
+                }
+
+                return null;
             }
         }
     }

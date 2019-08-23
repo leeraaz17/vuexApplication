@@ -35,7 +35,14 @@
 
 <script>
     export default {
-        // TODO: Access cart items and cart total
+        computed: {
+            cart() {
+                return this.$store.state.cart;
+            },
+            cartTotal() {
+                return this.$store.state.cartTotal;
+            }
+        }
     }
 </script>
 
