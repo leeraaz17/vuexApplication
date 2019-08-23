@@ -58,6 +58,8 @@
 </template>
 
 <script>
+    import { CHECKOUT } from './mutation-types'
+
     export default {
         computed: {
             cart() {
@@ -67,7 +69,7 @@
                 return this.$store.getters.cartTotal;
             },
             taxAmount() {
-                return this.$store.getters.taxAmount(100);
+                return this.$store.getters.taxAmount(10);
             }
         },
         // TODO: Access cart items, cart total, and tax amount
@@ -86,6 +88,14 @@
             }
 
             next();
+        },
+        methods: {
+          //  [CHECKOUT]() {
+            checkout() {
+               if (!confirm('Are you sure you want to buy these amazing products?')) {
+                    this.$store.commit('checkout');
+                } 
+            }
         }
     }
-</script>
+</script> 

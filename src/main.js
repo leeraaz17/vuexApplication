@@ -4,6 +4,7 @@ import VueResource from 'vue-resource';
 import VueRouter from 'vue-router';
 import App from './App.vue';
 import { routes } from './routes';
+import { ADD_PRODUCT_TO_CART, CHECKOUT } from './mutation-types'
 
 Vue.filter('currency', function(value) {
     let formatter = new Intl.NumberFormat('en-US', {
@@ -43,6 +44,39 @@ const store = new Vuex.Store({
             items:[]
         }
     },
+    mutations: {
+        //[CHECKOUT](state) {
+        checkout(state) {
+            state.cart.items.forEach(function(item) {
+                item.product.inStock += item.quantity;
+            });
+
+            state.cart.items = [];
+        },
+        //[ADD_PRODUCT_TO_CART](state, payload) {
+        addProductToCart(state, payload) {
+            let cartItem = null;
+
+            for( let i = 0; i < state.cart.items.length; i++) {
+                if (state.cart.items[i].product.id === payload.product.id ){
+                    cartItem = state.cart.items[i];
+                }
+            }
+
+
+            if(cartItem != null ){
+                cartItem.quantity += payload.quantity;
+            }
+            else {
+                state.cart.items.push({
+                    product: payload.product, 
+                    quantity: payload.quantity
+                });
+            }
+
+            payload.product.inStock -= payload.quantity;
+        }
+    },
     getters: {
         cartTotal: (state) => {
             let total = 0;
@@ -57,7 +91,7 @@ const store = new Vuex.Store({
             return ((getters.cartTotal * percentage ) / 100 );
         }
     }
-})
+});
 
 Vue.http.options.root = 'http://localhost:3000';
 

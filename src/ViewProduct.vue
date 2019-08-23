@@ -54,6 +54,8 @@
 </template>
 
 <script>
+    import { ADD_PRODUCT_TO_CART } from './mutation-types'
+
     export default {
         props: {
             productId: {
@@ -105,29 +107,12 @@
             deleteReview(review) {
                 // TODO: Implement
             },
+            // [ADD_PRODUCT_TO_CART]() {
             addProductToCart() {
-                let cartItem = this.getCartItem(this.product);
-
-                if(cartItem != null ){
-                    cartItem.quantity++;
-                }
-                else {
-                    this.cart.items.push({
-                        product: this.product,
-                        quantity: 1
-                    });
-                }
-
-                this.product.inStock--;
-            },
-            getCartItem(product){
-                for( let i = 0; i < this.cart.items.length; i++) {
-                    if (this.cart.items[i].product.id === product.id ){
-                        return this.cart.items[i];
-                    }
-                }
-
-                return null;
+                this.$store.commit('addProductToCart', {
+                    product: this.product,
+                    quantity: 1
+                });
             }
         }
     }
