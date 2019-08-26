@@ -1,15 +1,6 @@
-import ProductList from './ProductList.vue';
-import ViewProduct from './ViewProduct.vue';
-import Cart from './Cart.vue';
+import ListPosts from './blog/components/ListPosts.vue';
 
 export const routes = [
-    { path: '', component: ProductList },
-    {
-        path: '/products/:productId',
-        name: 'viewProduct',
-        props: true,
-        component: ViewProduct
-    },
-    { path: '/cart', component: Cart },
+    { path: '', component: ListPosts },
     { path: '*', component: { template: '<h1>Page Not Found!</h1>' } }
 ];
